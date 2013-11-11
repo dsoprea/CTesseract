@@ -37,11 +37,6 @@ int tess_init_lang_mod(tess_api_t *api,
                        const char* datapath, 
                        const char* language);
 
-//  void GetLoadedLanguagesAsVector(GenericVector<STRING>* langs) const;
-//  void GetAvailableLanguagesAsVector(GenericVector<STRING>* langs) const;
-//  void InitForAnalysePage();
-//  void ReadConfigFile(const char* filename);
-
 int tess_set_page_seg_mode(tess_api_t *api, tess_page_seg_mode_e mode);
 tess_page_seg_mode_e tess_get_page_seg_mode(tess_api_t *api);
 char *tess_tesseract_rect(tess_api_t *api, 
@@ -66,11 +61,9 @@ int tess_set_source_resolution(tess_api_t *api, int ppi);
 int tess_set_rectangle(tess_api_t *api, int left, int top, int width, 
                        int height);
 
-/*
 // TODO: We need to encapsulte the ImageThresholder type.
-int tess_set_thresholder(tess_api_t *api, 
-                         tesseract::ImageThresholder *thresholder)
-*/
+//int tess_set_thresholder(tess_api_t *api, 
+//                         tesseract::ImageThresholder *thresholder)
 
 Pix *tess_get_thresholded_image(tess_api_t *api);
 Boxa *tess_get_regions(tess_api_t *api, Pixa **pixa);
@@ -95,23 +88,19 @@ int tess_process_pages_string(tess_api_t *api, const char *filename,
                               tess_string_t *text_out);
 
 // TODO: Encapsulate TessResultRenderer
-/*
-int tess_process_pages_renderer(tess_api_t *api, const char* filename,
-                                const char* retry_config, int timeout_millisec,
-                                TessResultRenderer* renderer)
-*/
+//int tess_process_pages_renderer(tess_api_t *api, const char* filename,
+//                                const char* retry_config, int timeout_millisec,
+//                                TessResultRenderer* renderer)
 
 int tess_process_page_string(tess_api_t *api, Pix* pix, int page_index, 
                              const char* filename, const char* retry_config, 
                              int timeout_millisec, tess_string_t *text_out);
 
 // TODO: Encapsulate TessResultRenderer
-/*
-int tess_process_page_renderer(tess_api_t *api, Pix* pix, int page_index, 
-                               const char* filename, const char* retry_config, 
-                               int timeout_millisec, 
-                               TessResultRenderer* renderer);
-*/
+//int tess_process_page_renderer(tess_api_t *api, Pix* pix, int page_index, 
+//                               const char* filename, const char* retry_config, 
+//                               int timeout_millisec, 
+//                               TessResultRenderer* renderer);
 
 int tess_get_iterator(tess_api_t *api, tess_mr_iterator_t *result);
 int tess_get_mutable_iterator(tess_api_t *api, tess_mr_iterator_t *result);
@@ -127,15 +116,14 @@ int tess_clear(tess_api_t *api);
 int tess_is_valid_word(tess_api_t *api, const char *word);
 int tess_get_text_direction(tess_api_t *api, int* out_offset, float* out_slope);
 
-/*
 //void SetDictFunc(DictFunc f);
 //  void SetProbabilityInContextFunc(ProbabilityInContextFunc f);
 //  void SetParamsModelClassifyFunc(ParamsModelClassifyFunc f);
 //  void SetFillLatticeFunc(FillLatticeFunc f);
-/*
+
 // TODO: Encapsulate OSResults *.
-int tess_detect_os(tess_api_t *api, OSResults *os_results)
-*/
+//int tess_detect_os(tess_api_t *api, OSResults *os_results)
+
 
 // TODO: Write functions to access tess_features_t.
 
