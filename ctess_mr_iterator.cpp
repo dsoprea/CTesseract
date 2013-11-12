@@ -1,4 +1,4 @@
-#include "ctess_mr_iterator.h"
+#include <ctesseract/ctess_mr_iterator.h>
 
 // We married the mutable iterator and result iterator (the former inheriting
 // from the latter). Hence, we refer to this as "MR".

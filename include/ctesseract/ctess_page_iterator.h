@@ -4,7 +4,7 @@
 #include <tesseract/baseapi.h>
 #include <tesseract/pageiterator.h>
 
-#include "ctess_types.h"
+#include <ctesseract/ctess_types.h>
 
 typedef struct {
     tesseract::PageIterator *tess_page_iterator;

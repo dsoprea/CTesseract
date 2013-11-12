@@ -1,4 +1,4 @@
-#include "ctess_string.h"
+#include <ctesseract/ctess_string.h>
 
 const char *tess_get_string_get_char_array(tess_string_t *text)
 {

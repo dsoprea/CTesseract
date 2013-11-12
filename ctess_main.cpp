@@ -1,4 +1,4 @@
-#include "ctess_main.h"
+#include <ctesseract/ctess_main.h>
 
 int tess_create(const char *data_path, const char *language, tess_api_t *api)
 {
@@ -342,7 +342,7 @@ int tess_get_text_direction(tess_api_t *api, int* out_offset, float* out_slope)
     else
         return 0;
 }
-/*
+
 //void SetDictFunc(DictFunc f);
 //  void SetProbabilityInContextFunc(ProbabilityInContextFunc f);
 //  void SetParamsModelClassifyFunc(ParamsModelClassifyFunc f);

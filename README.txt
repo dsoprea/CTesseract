@@ -1,4 +1,38 @@
+Summary
+-------
+
 This library provides a C adapter for the Tesseract C++ library.
+
+
+Description
+-----------
+
+This project was created as a transitional library on which to build a tighter 
+Python module.
+
+
+Build
+-----
+
+To build ctesseract shared library:
+
+    $ mkdir build && build
+    $ cmake ..
+    $ make
+    $ sudo make install
+
+To build test program ("test" subdirectory):
+
+    $ mkdir build && build
+    $ cmake ..
+    $ make
+
+    To run the test program, run "./ctesseract_test". The OCR'd text from the 
+    test image will be dumped.
+
+
+Details
+-------
 
 Most of the functionality in baseapi.h (the primary API interface) is provided.
 The exceptions are:
@@ -25,6 +59,4 @@ This should be a complete list of such unimplemented calls:
     oem
     InitTruthCallback
     GetCubeRecoContext
-
-I still need to add a makefile, and finish the README.
 

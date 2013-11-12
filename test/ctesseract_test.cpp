@@ -2,8 +2,8 @@
 
 #include <leptonica/allheaders.h>
 
-#include "ctess_main.h"
-#include "ctess_types.h"
+#include <ctesseract/ctess_main.h>
+#include <ctesseract/ctess_types.h>
 
 int recognize_iterate(tess_api_t *api)
 {
@@ -59,7 +59,7 @@ int main()
 
     // Open input image with leptonica library
     Pix *image;
-    if((image = pixRead("receipt4.png")) == NULL)
+    if((image = pixRead("../receipt4.png")) == NULL)
     {
         pixDestroy(&image);
         tess_destroy(&api);

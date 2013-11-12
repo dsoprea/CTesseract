@@ -4,7 +4,7 @@
 #include <tesseract/baseapi.h>
 #include <tesseract/resultiterator.h>
 
-#include "ctess_types.h"
+#include <ctesseract/ctess_types.h>
 
 typedef union {
     tesseract::ResultIterator *tess_result;

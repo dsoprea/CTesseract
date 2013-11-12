@@ -1,4 +1,4 @@
-#include "ctess_page_iterator.h"
+#include <ctesseract/ctess_page_iterator.h>
 
 // TODO: Finish implementing these methods (we only needed Next() and Empty(), 
 //       initially).

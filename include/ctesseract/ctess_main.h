@@ -7,10 +7,10 @@
 #include <tesseract/resultiterator.h>
 #include <leptonica/allheaders.h>
 
-#include "ctess_types.h"
-#include "ctess_page_iterator.h"
-#include "ctess_mr_iterator.h"
-#include "ctess_string.h"
+#include <ctesseract/ctess_types.h>
+#include <ctesseract/ctess_page_iterator.h>
+#include <ctesseract/ctess_mr_iterator.h>
+#include <ctesseract/ctess_string.h>
 
 typedef struct {
     TBLOB *tess_blob;
