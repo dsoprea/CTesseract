@@ -11,6 +11,16 @@ This project was created as a transitional library on which to build a tighter
 Python module.
 
 
+Dependencies
+------------
+
+Tesseract:
+    Library: libtesseract.so
+    Includes: /usr/include/tesseract
+
+    * For Ubuntu, install the "libtesseract-dev" package.
+
+
 Build
 -----
 
