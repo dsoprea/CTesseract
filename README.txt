@@ -16,9 +16,16 @@ Dependencies
 
 Tesseract:
     Library: libtesseract.so
-    Includes: /usr/include/tesseract
+    Includes: tesseract
 
     * For Ubuntu, install the "libtesseract-dev" package.
+
+Leptonica:
+
+    Library: liblept.so
+    Includes: leptonica
+
+    * For Ubuntu, install the "libleptonica-dev" package.
 
 
 Build
@@ -39,6 +46,159 @@ To build test program ("test" subdirectory):
 
     To run the test program, run "./ctesseract_test". The OCR'd text from the 
     test image will be dumped.
+
+
+Usage Notes
+-----------
+
+Aside from a handful of new functions required for the C implementation
+(creating and destroying the API context, deleting an allocated string, and
+several functions related to iterators) and new C types to wrap the C++
+originals, the C functions are named by a very predictable convention. This
+specifically applies to the API methods (this will probably be 95% of your
+usage). 
+
+For example, "api->GetUTF8Text()" translates to "tess_get_utf8_text(&api)"
+(assuming the API context is an auto-allocated variable named "api"). When 
+multiple overloads of the same C++ method are concerned, a type or some other 
+type of discriminator will be suffixed to the end of the corresponding C call. 
+For example, "api->SetImage(image)" translates to 
+"tess_set_image_pix(&api, image)".
+
+For a complete comparison:
+
+    In Tesseract:
+        
+        tesseract::TessBaseAPI *api = new tesseract::TessBaseAPI();
+        api->Init(NULL, "eng")
+
+        Pix *image;
+        image = pixRead("receipt4.png");
+
+        api->SetImage(image);
+        api->Recognize(NULL);
+
+        char *text = api->GetUTF8Text();
+        std::cout << text << std::endl;
+        delete[] text;
+
+        api->End();
+        delete api;
+        
+    In CTesseract:
+
+        tess_api_t api;
+        tess_create(NULL, "eng", &api)
+
+        Pix *image;
+        image = pixRead("../receipt4.png");
+
+        tess_set_image_pix(&api, image);
+        tess_recognize(&api);
+
+        char *para_text = tess_get_utf8_text(&api);
+        printf("%s", para_text);
+        tess_delete_string(para_text);
+
+        pixDestroy(&image);
+        tess_destroy(&api)
+
+
+Full Example
+------------
+
+The following is an example implementation. Aside from the naming changes (
+
+    #include <stdio.h>
+
+    #include <leptonica/allheaders.h>
+
+    #include <ctesseract/ctess_main.h>
+    #include <ctesseract/ctess_types.h>
+
+    // Process individual blocks of the document. Allows you to identify visual 
+    // separate parts of the document.
+    int recognize_iterate(tess_api_t *api)
+    {
+        if(tess_recognize(api) != 0)
+            return -1;
+
+        int confidence = tess_mean_text_conf(api);
+        printf("Confidence: %d\n", confidence);
+        if(confidence < 80)
+            printf("Confidence is low!\n");
+
+        tess_mr_iterator_t it;
+        tess_get_iterator(api, &it);
+
+        do 
+        {
+            printf("=================\n");
+            if(tess_mr_it_empty(&it, RIL_PARA) == 1)
+                continue;
+
+            char *para_text = tess_mr_it_get_utf8_text(&it, RIL_PARA);
+            printf("%s", para_text);
+            tess_delete_string(para_text);
+        } while (tess_mr_it_next(&it, RIL_PARA) == 1);
+
+        tess_mr_it_delete(&it);
+        return 0;
+    }
+
+    // Process the document and return the complete thing as a single string.
+    int recognize_complete(tess_api_t *api)
+    {
+        if(tess_recognize(api) != 0)
+            return -1;
+
+        int confidence = tess_mean_text_conf(api);
+        printf("Confidence: %d\n", confidence);
+        if(confidence < 80)
+            printf("Confidence is low!\n");
+
+        char *para_text = tess_get_utf8_text(api);
+        printf("%s", para_text);
+        tess_delete_string(para_text);
+
+        return 0;
+    }
+
+    int main()
+    {
+        tess_api_t api;
+
+        if(tess_create(NULL, "eng", &api) != 0)
+            return 1;
+
+        // Open input image with leptonica library
+        Pix *image;
+        if((image = pixRead("../receipt4.png")) == NULL)
+        {
+            pixDestroy(&image);
+            tess_destroy(&api);
+            return 2;
+        }
+     
+        if(tess_set_image_pix(&api, image) != 0)
+        {
+            pixDestroy(&image);
+            tess_destroy(&api);
+            return 3;
+        }
+
+        if(recognize_iterate(&api) != 0)
+        {
+            pixDestroy(&image);
+            tess_destroy(&api);
+            return 4;
+        }
+
+        pixDestroy(&image);
+        tess_destroy(&api);
+
+        return 0;
+    }
 
 
 Details

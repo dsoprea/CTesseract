@@ -5,6 +5,8 @@
 #include <ctesseract/ctess_main.h>
 #include <ctesseract/ctess_types.h>
 
+// Process individual blocks of the document. Allows you to identify visual 
+// separate parts of the document.
 int recognize_iterate(tess_api_t *api)
 {
     if(tess_recognize(api) != 0)
@@ -33,6 +35,7 @@ int recognize_iterate(tess_api_t *api)
     return 0;
 }
 
+// Process the document and return the complete thing as a single string.
 int recognize_complete(tess_api_t *api)
 {
     if(tess_recognize(api) != 0)
@@ -73,7 +76,7 @@ int main()
         return 3;
     }
 
-    if(recognize_complete(&api) != 0)
+    if(recognize_iterate(&api) != 0)
     {
         pixDestroy(&image);
         tess_destroy(&api);
