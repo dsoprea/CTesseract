@@ -2,8 +2,8 @@
 
 #include <leptonica/allheaders.h>
 
-#include <ctesseract/ctess_main.h>
-#include <ctesseract/ctess_types.h>
+#include <ctess_api/ctess_types.h>
+#include <ctess_api/ctess_main.h>
 
 // Process individual blocks of the document. Allows you to identify visual 
 // separate parts of the document.
@@ -61,7 +61,7 @@ int main()
         return 1;
 
     // Open input image with leptonica library
-    Pix *image;
+    PIX *image;
     if((image = pixRead("../receipt4.png")) == NULL)
     {
         pixDestroy(&image);

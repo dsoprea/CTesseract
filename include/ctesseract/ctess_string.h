@@ -4,8 +4,14 @@
 #include <tesseract/baseapi.h>
 
 typedef struct {
-    STRING tess_string;
+    STRING *tess_string;
 } tess_string_t;
+
+extern "C"
+{
+    const char *tess_string_get_char_array(tess_string_t *text);
+    void tess_string_free(tess_string_t *text);
+}
 
 #endif
 

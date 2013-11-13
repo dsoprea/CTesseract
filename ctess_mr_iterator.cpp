@@ -1,5 +1,7 @@
 #include <ctesseract/ctess_mr_iterator.h>
 
+extern "C" {
+
 // We married the mutable iterator and result iterator (the former inheriting
 // from the latter). Hence, we refer to this as "MR".
 
@@ -127,5 +129,6 @@ int tess_mr_it_empty(tess_mr_iterator_t *it, tess_page_iterator_level_e level)
         default:
             return -1;
     }
+}
 }
 

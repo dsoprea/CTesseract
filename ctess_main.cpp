@@ -1,5 +1,6 @@
 #include <ctesseract/ctess_main.h>
 
+extern "C" {
 int tess_create(const char *data_path, const char *language, tess_api_t *api)
 {
     assert(language != NULL);
@@ -96,7 +97,7 @@ int tess_set_image_details(tess_api_t *api,
     return 0;
 }
 
-int tess_set_image_pix(tess_api_t *api, const Pix* pix)
+int tess_set_image_pix(tess_api_t *api, const PIX *pix)
 {
     api->tess_api->SetImage(pix);
 
@@ -128,46 +129,46 @@ int tess_set_thresholder(tess_api_t *api,
 }
 */
 
-Pix *tess_get_thresholded_image(tess_api_t *api)
+PIX *tess_get_thresholded_image(tess_api_t *api)
 {
     return api->tess_api->GetThresholdedImage();
 }
 
-Boxa *tess_get_regions(tess_api_t *api, 
-                       Pixa **pixa)
+BOXA *tess_get_regions(tess_api_t *api, 
+                       PIXA **pixa)
 {
     return api->tess_api->GetRegions(pixa);
 }
 
-Boxa *tess_get_text_lines(tess_api_t *api, Pixa **pixa, int **blockids)
+BOXA *tess_get_text_lines(tess_api_t *api, PIXA **pixa, int **blockids)
 {
     return api->tess_api->GetTextlines(pixa, blockids);
 }
 
-Boxa *tess_get_strips(tess_api_t *api, Pixa **pixa, int **blockids)
+BOXA *tess_get_strips(tess_api_t *api, PIXA **pixa, int **blockids)
 {
     return api->tess_api->GetStrips(pixa, blockids);
 }
 
-Boxa *tess_get_words(tess_api_t *api, Pixa **pixa)
+BOXA *tess_get_words(tess_api_t *api, PIXA **pixa)
 {
     return api->tess_api->GetWords(pixa);
 }
 
-Boxa *tess_get_connected_components(tess_api_t *api, Pixa **cc)
+BOXA *tess_get_connected_components(tess_api_t *api, PIXA **cc)
 {
     return api->tess_api->GetConnectedComponents(cc);
 }
 
-Boxa *tess_get_component_images(tess_api_t *api, 
+BOXA *tess_get_component_images(tess_api_t *api, 
                                 const tess_page_iterator_level_e level,
-                                const bool text_only, 
-                                Pixa **pixa, 
+                                const int text_only, 
+                                PIXA **pixa, 
                                 int **blockids)
 {
     return api->tess_api->GetComponentImages(
             (tesseract::PageIteratorLevel)level, 
-            text_only, 
+            (text_only == 1), 
             pixa, 
             blockids);
 }
@@ -205,10 +206,13 @@ int tess_process_pages_string(tess_api_t *api, const char *filename,
                               const char *retry_config, int timeout_millisec,
                               tess_string_t *text_out)
 {
+    // This has to be destroyed with c=tess_string_free().
+    text_out->tess_string = new STRING();
+
     if(api->tess_api->ProcessPages(filename, 
                                    retry_config, 
                                    timeout_millisec,
-                                   &text_out->tess_string) == false)
+                                   text_out->tess_string) == false)
         return -1;
 
     return 0;
@@ -228,17 +232,19 @@ int tess_process_pages_renderer(tess_api_t *api, const char* filename,
 }
 */
 
-int tess_process_page_string(tess_api_t *api, Pix* pix, int page_index, 
+int tess_process_page_string(tess_api_t *api, PIX *pix, int page_index, 
                              const char* filename, const char* retry_config, 
                              int timeout_millisec, tess_string_t *text_out)
 {
+    // This has to be destroyed with c=tess_string_free().
+    text_out->tess_string = new STRING();
 
     if(api->tess_api->ProcessPage(pix, 
                                   page_index, 
                                   filename, 
                                   retry_config, 
                                   timeout_millisec, 
-                                  &text_out->tess_string) == false)
+                                  text_out->tess_string) == false)
         return -1;
     
     return 0;
@@ -246,7 +252,7 @@ int tess_process_page_string(tess_api_t *api, Pix* pix, int page_index,
 
 // TODO: Encapsulate TessResultRenderer
 /*
-int tess_process_page_renderer(tess_api_t *api, Pix* pix, int page_index, 
+int tess_process_page_renderer(tess_api_t *api, PIX *pix, int page_index, 
                                const char* filename, const char* retry_config, 
                                int timeout_millisec, 
                                TessResultRenderer* renderer)
@@ -441,7 +447,7 @@ int tess_make_tess_ocr_row(float baseline,
     return 0;
 }
 
-int tess_make_tblob(Pix *pix, tess_blob_t *result)
+int tess_make_tblob(PIX *pix, tess_blob_t *result)
 {
     TBLOB *blob = tesseract::TessBaseAPI::MakeTBLOB(pix);
     if(blob == NULL)
@@ -477,11 +483,15 @@ int tess_set_min_orientation_margin(tess_api_t *api, double margin)
 }
 
 int tess_get_block_text_orientations(tess_api_t *api, 
-                                     int** block_orientation,
-                                     bool** vertical_writing)
+                                     int **block_orientation,
+                                     void **vertical_writing,
+                                     int *vw_size)
 {
+    if(vw_size != NULL)
+        *vw_size = sizeof(bool);
+    
     api->tess_api->GetBlockTextOrientations(block_orientation,
-                                            vertical_writing);
+                                            (bool **)vertical_writing);
 
     return 0;
 }
@@ -509,5 +519,6 @@ int tess_delete_string(char *text)
     delete[] text;
 
     return 0;
+}
 }
 

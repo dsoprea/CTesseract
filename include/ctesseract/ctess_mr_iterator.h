@@ -22,6 +22,7 @@ typedef struct {
     tess_mr_it_type_e type;
 } tess_mr_iterator_t;
 
+extern "C" {
 int tess_mr_init_for_result_it(tess_mr_iterator_t *it, 
                                tesseract::ResultIterator *tess_result);
 
@@ -37,6 +38,7 @@ char *tess_mr_it_get_utf8_text(tess_mr_iterator_t *it,
 int tess_mr_it_delete(tess_mr_iterator_t *it);
 
 int tess_mr_it_empty(tess_mr_iterator_t *it, tess_page_iterator_level_e level);
+}
 
 #endif
 

@@ -1,5 +1,6 @@
 #include <ctesseract/ctess_page_iterator.h>
 
+extern "C" {
 // TODO: Finish implementing these methods (we only needed Next() and Empty(), 
 //       initially).
 
@@ -57,4 +58,5 @@ void ParagraphInfo(tesseract::ParagraphJustification *justification,
                    bool *is_crown,
                    int *first_line_indent) const;
 */
+}
 
