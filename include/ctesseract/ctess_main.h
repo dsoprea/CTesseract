@@ -39,6 +39,7 @@ int tess_init_lang_mod(tess_api_t *api,
 
 int tess_set_page_seg_mode(tess_api_t *api, tess_page_seg_mode_e mode);
 tess_page_seg_mode_e tess_get_page_seg_mode(tess_api_t *api);
+/*
 char *tess_tesseract_rect(tess_api_t *api, 
                           const unsigned char* imagedata,
                           int bytes_per_pixel, 
@@ -47,15 +48,16 @@ char *tess_tesseract_rect(tess_api_t *api,
                           int top, 
                           int width, 
                           int height);
-
+*/
 int tess_clear_adaptive_classifier(tess_api_t *api);
+/*
 int tess_set_image_details(tess_api_t *api, 
                            const unsigned char *imagedata, 
                            int width, 
                            int height, 
                            int bytes_per_pixel, 
                            int bytes_per_line);
-
+*/
 int tess_set_image_pix(tess_api_t *api, const PIX *pix);
 int tess_set_source_resolution(tess_api_t *api, int ppi);
 int tess_set_rectangle(tess_api_t *api, int left, int top, int width, 
@@ -175,8 +177,7 @@ int tess_normalize_tblob(tess_blob_t *tblob,
 int tess_set_min_orientation_margin(tess_api_t *api, double margin);
 int tess_get_block_text_orientations(tess_api_t *api, 
                                      int **block_orientation,
-                                     void **vertical_writing,
-                                     int *vw_size);
+                                     void **vertical_writing);
 
 int tess_find_lines_create_block_list(tess_api_t *api, 
                                       tess_blocklist_t *result);

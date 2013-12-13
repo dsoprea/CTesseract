@@ -60,6 +60,8 @@ tess_page_seg_mode_e tess_get_page_seg_mode(tess_api_t *api)
     return (tess_page_seg_mode_e)api->tess_api->GetPageSegMode();
 }
 
+/*
+// Where do we get this uchar image-data from?
 char *tess_tesseract_rect(tess_api_t *api, 
                           const unsigned char* imagedata,
                           int bytes_per_pixel, 
@@ -73,6 +75,7 @@ char *tess_tesseract_rect(tess_api_t *api,
                                         bytes_per_line, left, top, width, 
                                         height);
 }
+*/
 
 int tess_clear_adaptive_classifier(tess_api_t *api)
 {
@@ -80,7 +83,8 @@ int tess_clear_adaptive_classifier(tess_api_t *api)
 
     return 0;
 }
-
+/*
+// Where do we get this uchar image-data from?
 int tess_set_image_details(tess_api_t *api, 
                            const unsigned char *imagedata, 
                            int width, 
@@ -96,7 +100,7 @@ int tess_set_image_details(tess_api_t *api,
 
     return 0;
 }
-
+*/
 int tess_set_image_pix(tess_api_t *api, const PIX *pix)
 {
     api->tess_api->SetImage(pix);
@@ -484,12 +488,8 @@ int tess_set_min_orientation_margin(tess_api_t *api, double margin)
 
 int tess_get_block_text_orientations(tess_api_t *api, 
                                      int **block_orientation,
-                                     void **vertical_writing,
-                                     int *vw_size)
+                                     void **vertical_writing)
 {
-    if(vw_size != NULL)
-        *vw_size = sizeof(bool);
-    
     api->tess_api->GetBlockTextOrientations(block_orientation,
                                             (bool **)vertical_writing);
 
