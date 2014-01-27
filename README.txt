@@ -15,16 +15,13 @@ Dependencies
 ------------
 
 Tesseract:
-    Library: libtesseract.so
-    Includes: tesseract
+    Also needs language data.
 
-    * For Ubuntu, install the "libtesseract-dev" package.
+    * For Ubuntu, install the "libtesseract-dev" and "libtesseract3", packages.
+    * As an example of installing English language data under Ubuntu, you'll
+      require the "tesseract-ocr-eng" packages.
 
 Leptonica:
-
-    Library: liblept.so
-    Includes: leptonica
-
     * For Ubuntu, install the "libleptonica-dev" package.
 
 
