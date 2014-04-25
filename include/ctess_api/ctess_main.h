@@ -227,6 +227,7 @@ int tess_find_lines_create_block_list(tess_api_t *api,
 
 int tess_delete_block_list(tess_blocklist_t *blocks);
 int tess_delete_string(char *text);
+int tess_set_variable(tess_api_t *api, const char *name, const char *value);
 }
 
 #endif

@@ -520,5 +520,12 @@ int tess_delete_string(char *text)
 
     return 0;
 }
-}
 
+int tess_set_variable(tess_api_t *api, const char *name, const char *value)
+{
+    if(api->tess_api->SetVariable(name, value) == false)
+        return -1;
+
+    return 0;
+}
+}
