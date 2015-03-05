@@ -2,6 +2,7 @@
 #define __CTESS_STRING_H
 
 #include <tesseract/baseapi.h>
+#include <tesseract/strngs.h>
 
 typedef struct {
     STRING *tess_string;
